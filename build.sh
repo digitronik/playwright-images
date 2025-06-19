@@ -14,7 +14,6 @@ targets["chromium"]="chromium"
 targets["chrome"]="chrome"
 targets["all"]="all"
 
-# --- Build Logic ---
 echo "🚀 Starting Docker image build process..."
 
 # Determine which targets to build

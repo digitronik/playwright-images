@@ -83,6 +83,22 @@ RUN npm config set cache /tmp/npm_cache_root --global && \
 
 USER ${APP_USER}
 
+# --- Google Chrome Only Target ---
+FROM base AS chrome
+ENV PW_BROWSER="chrome"
+
+RUN echo "===== Downloading and installing Google Chrome Stable from .deb...=====" && \
+    wget -O /tmp/google-chrome-stable_current_amd64.deb "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" && \
+    apt-get install -y --no-install-recommends /tmp/google-chrome-stable_current_amd64.deb && \
+    google-chrome-stable --version && \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /var/cache/apt/* /tmp/* /var/tmp/* && \
+    rm -rf /tmp/npm_cache_root /root/.npm && \
+    rm -rf /usr/share/doc /usr/share/man
+
+USER ${APP_USER}
+
 # --- All Browsers Target ---
 FROM base AS all
 
