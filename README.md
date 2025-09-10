@@ -19,23 +19,21 @@ These images are built from the ground up on a slim Debian base (node:22-bookwor
 ## 🎭 Latest Release
 
 <!-- RELEASE_INFO_START -->
-**Current Playwright Version:** `1.54.0`  
-**Last Updated:** 2025-09-10 10:30 UTC (automated)  
+<!-- RELEASE_INFO_START -->
+**Current Playwright Version:** `1.55.0`  
+**Released:** 2025-09-10 16:56 UTC  
 
 ### 🐳 Available Images
-```bash
-# Latest tags (automatically updated)
-digitronik/playwright-vnc:latest              # All browsers
-digitronik/playwright-vnc:firefox-latest      # Firefox only
-digitronik/playwright-vnc:chromium-latest     # Chromium only  
-digitronik/playwright-vnc:chrome-latest       # Chrome only
+- `digitronik/playwright-vnc:latest` (all browsers)
+- `digitronik/playwright-vnc:firefox-latest`
+- `digitronik/playwright-vnc:chromium-latest`
+- `digitronik/playwright-vnc:chrome-latest`
 
-# Version-specific tags
-digitronik/playwright-vnc:1.54.0              # All browsers, v1.54.0
-digitronik/playwright-vnc:firefox-1.54.0      # Firefox, v1.54.0
-digitronik/playwright-vnc:chromium-1.54.0     # Chromium, v1.54.0
-digitronik/playwright-vnc:chrome-1.54.0       # Chrome, v1.54.0
-```
+### 📦 Version-Specific Tags
+- `digitronik/playwright-vnc:1.55.0`
+- `digitronik/playwright-vnc:firefox-1.55.0`
+- `digitronik/playwright-vnc:chromium-1.55.0`
+- `digitronik/playwright-vnc:chrome-1.55.0`
 
 ### 🚀 Quick Start
 ```bash
@@ -45,6 +43,8 @@ docker run -p 5900:5900 -p 3000:3000 digitronik/playwright-vnc:latest
 # Connect via VNC
 vncviewer localhost:5900
 ```
+
+*Last updated: 2025-09-10 16:56 UTC (automated)*
 <!-- RELEASE_INFO_END -->
 
 ## How to Build the Images (Local Development)
