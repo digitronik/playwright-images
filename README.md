@@ -14,48 +14,85 @@ These images are built from the ground up on a slim Debian base (node:22-bookwor
 - Optimized for Size: Multi-stage Dockerfile and careful package selection to keep images lean.
 - Configurable: Control the browser type and headless mode at runtime with environment variables.
 - Single Source: Manage all image variants from a single, easy-to-maintain Dockerfile.multibuild.
+- Automated Builds: Daily CI/CD pipeline builds latest Playwright versions automatically.
 
-## How to Build the Images
-- Customize the image repository name in build.sh if needed.
-    ```
-    # In build.sh
-    IMAGE_REPO="localhost/playwright-vnc"
-    ```
-- Run the build script
-    - To build all image variants
-        ```
-        sh build.sh
-        ```
-    - To build only a specific variant (e.g., Firefox and Chrome):
-        ```
-        sh build.sh firefox chrome
-        ```
+## 🎭 Latest Release
+
+<!-- RELEASE_INFO_START -->
+**Current Playwright Version:** `1.54.0`  
+**Last Updated:** 2025-09-10 10:30 UTC (automated)  
+
+### 🐳 Available Images
+```bash
+# Latest tags (automatically updated)
+digitronik/playwright-vnc:latest              # All browsers
+digitronik/playwright-vnc:firefox-latest      # Firefox only
+digitronik/playwright-vnc:chromium-latest     # Chromium only  
+digitronik/playwright-vnc:chrome-latest       # Chrome only
+
+# Version-specific tags
+digitronik/playwright-vnc:1.54.0              # All browsers, v1.54.0
+digitronik/playwright-vnc:firefox-1.54.0      # Firefox, v1.54.0
+digitronik/playwright-vnc:chromium-1.54.0     # Chromium, v1.54.0
+digitronik/playwright-vnc:chrome-1.54.0       # Chrome, v1.54.0
+```
+
+### 🚀 Quick Start
+```bash
+# Run with all browsers available
+docker run -p 5900:5900 -p 3000:3000 digitronik/playwright-vnc:latest
+
+# Connect via VNC
+vncviewer localhost:5900
+```
+<!-- RELEASE_INFO_END -->
+
+## How to Build the Images (Local Development)
+
+**Note:** Images are automatically built daily via GitHub Actions. For local development:
+
+```bash
+# Build latest Playwright version (all browsers)
+./build.sh
+
+# Build specific Playwright version
+./build.sh --playwright-version 1.55.0
+
+# Build only specific browser variants  
+./build.sh firefox chrome
+
+# Customize repository name for local builds
+./build.sh --repo "localhost/playwright-vnc"
+```
 
 ### Available Image Variants
-The build script will create the following images:
 
-| Image Tag Suffix | Default Browser | Installed Browsers |
+| Image Tag | Default Browser | Installed Browsers |
 | :--- | :--- | :--- |
+| `:latest` | Chromium | All browsers (Firefox, Chromium, Chrome) |
 | `:firefox-latest` | Firefox | Playwright's Firefox |
 | `:chromium-latest`| Chromium | Playwright's Chromium |
 | `:chrome-latest` | Google Chrome | Google Chrome (Stable) |
-| `:all-latest` | Chromium | Google Chrome, Playwright's Firefox, Playwright's Chromium |
 
 
 ## How to Run the Images
-Use podman/docker run to start a container. You need to map the VNC port (5900) and the Playwright server port (3000).
-- Run the Specific browser image (example firefox)
-    ```
-    podman run -it -p 5900:5900 -p 3000:3000 localhost/playwright-vnc:firefox-latest
 
-    ```
-- All browser image (run google chrome)
-    ```
-    podman run -it -e PW_BROWSER="chrome" -p 5900:5900 -p 3000:3000 localhost/playwright-vnc:all-latest
-    ```
-- Note: Important environmental variables are
-    - PW_BROWSER : Help you to specify browser
-    - PW_HEADLESS: Help you to run in healess mode default its false.
+Use docker/podman to start a container. Map VNC port (5900) and Playwright server port (3000).
+
+```bash
+# Run specific browser image
+docker run -p 5900:5900 -p 3000:3000 digitronik/playwright-vnc:firefox-latest
+
+# Run all-browsers image with specific browser selection
+docker run -e PW_BROWSER="chrome" -p 5900:5900 -p 3000:3000 digitronik/playwright-vnc:latest
+
+# Run in headless mode  
+docker run -e PW_HEADLESS="true" -p 3000:3000 digitronik/playwright-vnc:latest
+```
+
+### Environment Variables
+- `PW_BROWSER`: Specify browser (`firefox`, `chromium`, `chrome`) 
+- `PW_HEADLESS`: Run in headless mode (`true`/`false`, default: `false`)
 
 ### Connecting with a VNC Client
 VNC will run at 5900 port. You can connect your favorite VNC client.
