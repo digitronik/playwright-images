@@ -127,10 +127,15 @@ jobs:
       - name: Test built image
         run: |
           # Quick smoke test to ensure the image starts
-          echo "Testing ${{ env.IMAGE_NAME }}:${{ matrix.browser }}-latest"
+          if [ "${{ matrix.browser }}" = "all" ]; then
+            TEST_TAG="${{ env.IMAGE_NAME }}:latest"
+          else
+            TEST_TAG="${{ env.IMAGE_NAME }}:${{ matrix.browser }}-latest"
+          fi
+          echo "Testing $TEST_TAG"
           docker run --rm -d --name test-container \
             -p 5900:5900 -p 3000:3000 \
-            ${{ env.IMAGE_NAME }}:${{ matrix.browser }}-latest
+            $TEST_TAG
           
           # Wait a bit for services to start
           sleep 10
