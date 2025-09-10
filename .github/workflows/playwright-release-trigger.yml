@@ -12,7 +12,7 @@ on:
         description: 'Playwright version to build (e.g., 1.52.0)'
         required: true
         type: string
-        browsers:
+      browsers:
         description: 'Browsers to build (ignored - all browsers built by default)'
         required: false
         default: 'all'
@@ -67,11 +67,11 @@ jobs:
             exit 1
           fi
           
-        echo "✅ Validated inputs:"
-        echo "   Playwright Version: $PLAYWRIGHT_VERSION"
-        echo "   Browsers: All browsers will be built (firefox, chromium, chrome, all)"
-        
-        echo "playwright-version=$PLAYWRIGHT_VERSION" >> $GITHUB_OUTPUT
+          echo "✅ Validated inputs:"
+          echo "   Playwright Version: $PLAYWRIGHT_VERSION"
+          echo "   Browsers: All browsers will be built (firefox, chromium, chrome, all)"
+          
+          echo "playwright-version=$PLAYWRIGHT_VERSION" >> $GITHUB_OUTPUT
 
   build-images:
     needs: validate-version
