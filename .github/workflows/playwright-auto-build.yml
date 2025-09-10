@@ -73,7 +73,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push Docker images
+      - name: Build Docker images
         if: steps.version-check.outputs.version-built == 'true'
         run: |
           VERSION="${{ steps.version-check.outputs.playwright-version }}"
@@ -83,7 +83,20 @@ jobs:
           # Build all variants
           ./build.sh --playwright-version "${VERSION}" --latest --repo "${{ env.IMAGE_NAME }}"
           
-          echo "✅ All images built and pushed successfully"
+          echo "✅ All images built successfully"
+
+      - name: Push Docker images to Docker Hub
+        if: steps.version-check.outputs.version-built == 'true'
+        run: |
+          VERSION="${{ steps.version-check.outputs.playwright-version }}"
+          
+          echo "🚀 Pushing all images to Docker Hub..."
+          
+          # Push all tags for this repository
+          docker push "${{ env.IMAGE_NAME }}" --all-tags
+          
+          echo "✅ All images pushed to Docker Hub successfully"
+
 
       - name: Test images
         if: steps.version-check.outputs.version-built == 'true'
