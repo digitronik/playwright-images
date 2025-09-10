@@ -141,14 +141,23 @@ jobs:
           *Last updated: ${CURRENT_DATE} (automated)*
           EOF
           
-          # Replace the section in README.md using sed
-          sed -i '/<!-- RELEASE_INFO_START -->/,/<!-- RELEASE_INFO_END -->/c\
-          <!-- RELEASE_INFO_START -->\
-          '"$(cat release_info_new.md | sed 's/$/\\/')"\
-          <!-- RELEASE_INFO_END -->' README.md
+          # Replace the section in README.md
+          # First, extract everything before the start marker
+          sed -n '1,/<!-- RELEASE_INFO_START -->/p' README.md > readme_temp.md
+          
+          # Add the start marker and new content
+          echo "<!-- RELEASE_INFO_START -->" >> readme_temp.md
+          cat release_info_new.md >> readme_temp.md
+          echo "<!-- RELEASE_INFO_END -->" >> readme_temp.md
+          
+          # Add everything after the end marker
+          sed -n '/<!-- RELEASE_INFO_END -->/,$p' README.md | tail -n +2 >> readme_temp.md
+          
+          # Replace the original README
+          mv readme_temp.md README.md
           
           # Cleanup
-          rm release_info_new.md
+          rm -f release_info_new.md
           
           echo "✅ README updated with latest release info"
 
